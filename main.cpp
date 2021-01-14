@@ -1,70 +1,78 @@
 #include <iostream>
-#include <ctime>
 #include <cmath>
-#include <cstdlib>
+#include <string.h>
 
 using namespace std;
 
+
 void Task1()
 {
-    int m, k= 0, max = 0;
+    int n;
+    float r= 0, min = 0;
     do
     {
-        cout << "m: ";
-        cin >> m;
-    } while(m <= 1);
+        cout << "n: ";
+        cin >> n;
+    } while(n < 1);
      
-    
-    do
+    if(pow(2, r) > n)
     {
-        if (k > max)
+        if(r < min)
         {
-            max = k;
-            k++;
+          r--;
+          min = r;
         }
-        if(k < max || k == max) {
-               k++;
-           }
-    }while(pow(4, k) < m);
-    cout << max;
-}
-
-void Task3()
-{
-    int count = 0;
-    string str;
-    getline(cin, str);
-    
-    if(str[0] == 'b' || str[0] == 'd')
-    {
-        int tmp = 0;
-        while(str[tmp] != ' ')
-        {
-           str.erase(0, 1);
-           tmp++;
-        }
-        count++;
+        else if(r == min)
+            min = r;
     }
-    for(int i = 0; i < str.length(); i++)
+    else  if(pow(2, r) < n)
     {
-        if (str[i] == ' ')
-        {
-           if(str[i + 1] == 'b' || str[i + 1] == 'd')
-           {
-               str.erase(i + 1, 1);
-               count++;
-           }
-        }
+        do{
+        r++;
+        min = r;
+        }while(pow(2, r) < n);
+        
     }
-    
-    cout <<"New string: " << str << " " << "Amount: " << count;
+    cout << min;
 }
-
 
 
 int main()
 {
-    Task1();
-    Task3();
+    string str, second_word, word, new_str;
+    int count = 0;
+    getline(cin, str);
+    int i = 0;
+      while (str[i] != ' ')
+        i++;
+      i++;
+      while (str[i] != ' ') {
+        second_word += str[i];
+        i++;
+      }
+      int sum = 0;
+    for (int i = 0; i < str.length(); i++) {
+       if ((str[i] != ',') && (str[i] != '.') && (str[i] != ' '))
+       {
+         word += str[i];
+       }
+       else {
+         if (word == second_word)
+           sum++;
+       //  if ((word[0] != 'j') && (word[word.length()-1] != 'f'))
+        //   new_str = new_str + word + str[i];
+         //if ((word[0] == 'j') || (word[word.length() - 1] == 'f'))
+           //count++;
+        // word.clear();
+       }
+       
+     }cout<<new_str;
+     cout << count << endl;
+     cout <<sum <<endl;
     
 }
+
+    
+
+
+
