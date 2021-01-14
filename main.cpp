@@ -1,76 +1,43 @@
 #include <iostream>
-#include <fstream>
+#include <string.h>
 
 using namespace std;
 
-
+string StringWithOneSpace(string s)
+{
+  for (int i = 0; i < s.length(); i++)
+    if (s[i] == ' ' && s[i + 1] == ' ')
+    {
+      s.erase(i, 1);
+      i = (i - 1);
+    }
+  if (s[0] == ' ')
+      s.erase(0, 1);
+      
+  return s;
+}
+string FindThreeWords(string s)
+{
+  int i = 0;
+  string singleWord = "";
+  for (int k = 0; k < 3; k++)
+  {
+    do
+    {
+      singleWord += s[i];
+      i++;
+    } while (s[i] != ' ');
+    i += 1;
+  }
+    
+  return singleWord;
+}
 
 int main()
 {
-    ifstream read_file("/Users/marta/Documents/Task2V4/task2.txt");
-    int rows, cols;
-    read_file >> rows;
-    read_file >> cols;
-    int** m = new int*[rows];
-    for(int i = 0; i < rows; i++)
-    {
-        m[i] = new int[cols];
-    }
-    
-    for(int i = 0; i < rows; i++)
-    {
-        for(int j = 0; j < cols; j++)
-        {
-            read_file >> m[i][j];
-        }
-    }
-    
-    for(int i = 0; i < rows; i++)
-    {
-        for(int j = 0; j < cols; j++)
-        {
-            cout << m[i][j] << "\t";
-        }
-        cout << endl;
-    }
-    
-    
-    int t, t1, count = 0, tmp;
-    for(int i = 0; i < rows; i++)
-    {
-      for(int j = 0; j < cols; j++)
-    {
-            tmp = m[i][j];
-            m[i][j] = 0;
-        
-        for(int k = 0; k < rows; k++)
-        {
-           for(int f = 0; f < cols; f++)
-           {
-              if(tmp == m[k][f])
-              {
-                 t = m[k][f];
-              }
-              else
-                count++;
-           }
-     
-           if(t1 > t)
-             t = t1;
-     }
-     
-        t1 = t;
-        m[i][j] = tmp;
-     
-      }
-    }
-    double kof;
-    kof = pow((double)rows, 4);
-     
-    if(count == kof)
-      cout << "No such elements";
-    else
-      cout << "Max: " << t;
+  string str;
+  cout << "Enter string: ";
+  getline(cin, str);
+  string three = FindThreeWords(StringWithOneSpace(str));
+  cout << three.length();
 }
-     
-    
