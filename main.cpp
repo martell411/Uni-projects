@@ -3,64 +3,93 @@
 
 using namespace std;
 
-//Дано послідовність слів, відокремлених пропусками, в кінці крапка. Видалити останню букву з кожного слова.
-void DeleteLastLitter()
+//Задано три цілі числа. Визначити серед них максимальне і добуток двох іншим чисел.
+void F1()
 {
-    string str;
-    getline(cin, str);
-    for (int i = 0; i < str.length(); i++)
+    int f =0, s =0, t= 0;
+    cout << "f:";
+    cin >> f;
+    cout << "s:";
+    cin >> s;
+    cout << "t:";
+    cin >> t;
+    if(f > s && f > t)
     {
-        if (str[i] == ' ')
+        cout << "max:" << f << "mult:" << s*t;
+    }
+    else if(s > f && s > t)
+    {
+        cout << "max:" << s << "mult:" << f*t;
+    }
+    else cout << "max:" << t << "mult:" << f*s;
+}
+ //Дано послідовність слів, відокремлених комами. Надкрукувати слово, складене з останніх літер усіх слів.
+void F2()
+{
+    string s, new_string;
+    char c;
+    cin >> s;
+    for(int i = 0; i < s.length(); i++)
+    {
+        if(s[i] == ',')
         {
-            str.erase(i - 1, 1);
+            c = s[i- 1];
+            new_string += c;
         }
-
     }
-
-    cout << str;
+    cout << new_string;
 }
 
 
-
-
-//Виводить символи а- а також їх коди в десятковому і шістнадцятковому вигляді
-void SymbolsAndTheirCode()
+int sum(int* s, int j, int size)
 {
-    char s;
-    int n;
-    for(s = 'a', n = 97; s <= 'z'&& n <= 122; s++, n++)
-    {
-        cout << "Symbol: " << s << "\t"
-        << "10: " << n << endl;
-        
-    }
-    
-    for(s = 'a', n = 97; s <= 'z'&& n <= 122; s++, n++)
-    {
-        cout << "16: " << (int)s << hex << "\t" << endl;
-    }
+  int result = 0;
+  for (int i = j; i < size; i++)
+  {
+    result += s[i];
+  }
+  return result;
 }
 
-
-void SymetricWords()
-{
-    string str;
-    bool check = true;
-    getline(cin, str);
-    for (int i = 0; i < str.length()/2; i++)
-    {
-        if (str[i] != str[str.length()-i-1])
-        {
-            check = false;
-         }
-    }
-    if (check)
-       cout<< str << endl;
-    
-    
-}
+//11.3
 int main()
 {
-    //SymetricWords();
-    SymbolsAndTheirCode();
+  srand(time(0));
+    
+  int n, m;
+  cout << "Enter n: ";
+  cin >> n;
+  cout << "Enter m: ";
+  cin >> m;
+  int** matr = new int* [n];
+  for (int i = 0; i < n; i++)
+    matr[i] = new int[m];
+  for (int i = 0; i < n; i++)
+    for (int j = 0; j < m; j++)
+      matr[i][j] = rand() % 11;
+  cout << "First matrix:" << endl;
+  for (int i = 0; i < n; i++)
+  {
+    cout << endl;
+    for (int j = 0; j < m; j++)
+      cout << matr[i][j] << " ";
+  }
+  int** matrb = new int* [n];
+  for (int i = 0; i < n; i++)
+    matrb[i] = new int[m];
+  cout << endl;
+  for (int i = 0; i < n; i++)
+    for (int j = 0; j < m; j++)
+    {
+      matrb[i][j] = sum(matr[i], j, m);
+    }
+  cout << "Second matrix:" << endl;
+  for (int i = 0; i < n; i++)
+  {
+    cout << endl;
+    for (int j = 0; j < m; j++)
+      cout << matrb[i][j] << " ";
+  }
+
+    
 }
