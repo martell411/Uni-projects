@@ -1,80 +1,55 @@
 #include <iostream>
-#include <fstream>
+#include <string.h>
 
 using namespace std;
 
+
+void minMaxLengthWords(string input, string &minWord, string &maxWord)
+{
+    int si = 0, ei = 0; // змінні початку і кінця слова
+    int min_length = (int)input.length(), min_start_index = 0, max_length = 0, max_start_index = 0;
+  
+    while (ei <= min_length) //
+    {
+        if (ei < min_length && input[ei] != ' ') //рахуємо довжину слова
+            ei++;
+          
+        else
+        {
+            int curr_length = ei - si; //присвоємо довжину слова змінній яка відповідає за довжину в
+          
+            if (curr_length < min_length) //якщо довжина менша за мінімальну
+            {
+                min_length = curr_length; //то переприсвоюємо мінімальну довжину меншою
+                min_start_index = si; //індекс початку мінімального слова
+            }
+              
+            if (curr_length > max_length) //якщо довжина більша за максимальну
+            {
+                max_length = curr_length; //то переприсвоюєємо максимальну довжину більшою
+                max_start_index = si; //індекс початку максимального слова
+            }
+            ei++; // переміщаємо змінну яка шукає слово на наступний символ
+            si = ei; // переприсвоємо змінну яка відповідає за початковий символ слова
+        }
+    }
+      
+    minWord = input.substr(min_start_index, min_length); //вертає ту частину стрічки межі якої
+    maxWord = input.substr(max_start_index, max_length); //вказані в параметрах
+}
+
+
 int main()
 {
-    ifstream read_file("/Users/marta/Documents/Module1/module1.txt");
-    int rows, cols;
-    read_file >> rows;
-    read_file >> cols;
-    int** m = new int*[rows];
-    for(int i = 0; i < rows; i++)
-    {
-        m[i] = new int[cols];
-    }
-    
-    for(int i = 0; i < rows; i++)
-    {
-        for(int j = 0; j < cols; j++)
-        {
-            read_file >> m[i][j];
-        }
-    }
-    
-    cout << "BEFORE" << endl;
-    for(int i = 0; i < rows; i++)
-    {
-        for(int j = 0; j < cols; j++)
-        {
-            cout << m[i][j] << "\t";
-        }
-        cout << endl;
-    }
-    
-    int max_i = 0, max_j = 0;
-    int min_i = 0, min_j =0;
-    
-    for(int i = 0; i < rows; i++)
-    {
-        for(int j = 0; j < cols; j++)
-        {
-            if(m[i][j] > m[max_i][max_j])
-            {
-                max_i = i;
-                max_j = j;
-            }
-            
-            if(m[i][j] < m[min_i][min_j])
-            {
-                min_i = i;
-                min_j = j;
-            }
-        }
-    }
+    string str, minWord, maxWord, temp;
+    cout << "Enter string:";
+    getline(cin, str);
+    minMaxLengthWords(str, minWord, maxWord);
     
     
-    for(int i = 0; i < rows; i++)
-    {
-        for(int j = 0; j < cols; j++)
-        {
-            int tmp = m[min_i][min_j];
-            m[min_i][min_j]= m[max_i][max_j];
-            m[max_i][max_j] = tmp;
-        }
-    }
-    
-    cout << "AFTER" << endl;
-    for(int i = 0; i < rows; i++)
-    {
-        for(int j = 0; j < cols; j++)
-        {
-            cout << m[i][j] << "\t";
-        }
-        cout << endl;
-    }
-    
-    
-    
+      
+    cout << "Minimum length word: "
+        << minWord << endl
+        << "Maximum length word: "
+        << maxWord << endl;
 }
