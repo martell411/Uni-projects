@@ -1,57 +1,80 @@
 #include <iostream>
-#include <string.h>
+#include <fstream>
 
 using namespace std;
 
-
-void F1()
-{
-    int n, max=0,min=10;
-    cout << "Enter number: " << endl;
-    cin >> n;
-    while (n > 0)
-    {
-      if (n % 10 > max)
-        max = n % 10;
-      else if (n % 10 < min)
-        min = n % 10;
-      n /= 10;
-      
-    }
-    cout << "Max: " << max << endl;
-    cout << "Min: " << min << endl;
-    cout << "Max multiplied by min:" << max * min << endl;
-}
-
 int main()
 {
-    string str;
-    int sum=0, pos=0, space=0,len = 0;
-    cout << "Enter string" << endl;
-    getline(cin, str);
-    for(int i = 0; i < str.length(); i++)
+    ifstream read_file("/Users/marta/Documents/Module1/module1.txt");
+    int rows, cols;
+    read_file >> rows;
+    read_file >> cols;
+    int** m = new int*[rows];
+    for(int i = 0; i < rows; i++)
     {
-        if(str[i] == ' ')
+        m[i] = new int[cols];
+    }
+    
+    for(int i = 0; i < rows; i++)
+    {
+        for(int j = 0; j < cols; j++)
         {
-            space++;
-            
-            if(space == 3 || str[i] == '\0')
-            len = i + 1;
-            
+            read_file >> m[i][j];
         }
     }
     
-    for(int i = pos; i < len; i++)
+    cout << "BEFORE" << endl;
+    for(int i = 0; i < rows; i++)
     {
-        if(str[i] != ' ')
-          {
-              space++;
-              sum++;
-              pos = i+1;
-          }
-       
-     }
+        for(int j = 0; j < cols; j++)
+        {
+            cout << m[i][j] << "\t";
+        }
+        cout << endl;
+    }
     
-   
-    cout << sum;
+    int max_i = 0, max_j = 0;
+    int min_i = 0, min_j =0;
+    
+    for(int i = 0; i < rows; i++)
+    {
+        for(int j = 0; j < cols; j++)
+        {
+            if(m[i][j] > m[max_i][max_j])
+            {
+                max_i = i;
+                max_j = j;
+            }
+            
+            if(m[i][j] < m[min_i][min_j])
+            {
+                min_i = i;
+                min_j = j;
+            }
+        }
+    }
+    
+    
+    for(int i = 0; i < rows; i++)
+    {
+        for(int j = 0; j < cols; j++)
+        {
+            int tmp = m[min_i][min_j];
+            m[min_i][min_j]= m[max_i][max_j];
+            m[max_i][max_j] = tmp;
+        }
+    }
+    
+    cout << "AFTER" << endl;
+    for(int i = 0; i < rows; i++)
+    {
+        for(int j = 0; j < cols; j++)
+        {
+            cout << m[i][j] << "\t";
+        }
+        cout << endl;
+    }
+    
+    
+    
 }
