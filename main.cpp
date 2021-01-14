@@ -1,78 +1,167 @@
 #include <iostream>
-#include <cmath>
 #include <string.h>
 
 using namespace std;
 
+bool jExist(string str) {
+  for (int i = 0; i < str.length(); i++) {
+    if (str[str.length() - 1] == 'j') {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool fExist(string str) {
+  for (int i = 0; i < str.length(); i++) {
+    if (str[str.length() - 1] == 'f') {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool BExist(string str) {
+  for (int i = 0; i < str.length(); i++) {
+    if (str[0] == 'b') {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool DExist(string str) {
+  for (int i = 0; i < str.length(); i++) {
+    if (str[0] == 'd') {
+      return true;
+    }
+  }
+  return false;
+}
+
+void addWordToNewStr(string& newStr, string word, int& amountWordsWithJ, int& amountWordsWithF) {
+  bool ifFExist = fExist(word);
+  bool ifJExist = jExist(word);
+  if (ifFExist) {
+    amountWordsWithF++;
+  }
+  if (ifJExist) {
+    amountWordsWithJ++;
+  }
+  if (!ifFExist && !ifJExist) {
+    newStr = newStr + word + ' ';
+  }
+}
+
+void addWordToNewStr1(string& newStr, string word, int& amountWordsWithB, int& amountWordsWithD) {
+  bool ifBExist = BExist(word);
+  bool ifDExist = DExist(word);
+  if (ifBExist) {
+    amountWordsWithB++;
+  }
+  if (ifDExist) {
+    amountWordsWithD++;
+  }
+  if (!ifBExist && !ifDExist) {
+    newStr = newStr + word + ' ';
+  }
+}
+
 
 void Task1()
 {
-    int n;
-    float r= 0, min = 0;
-    do
-    {
+    int n=0, k=0, fact = 1, res = 1;
+    do{
         cout << "n: ";
         cin >> n;
-    } while(n < 1);
-     
-    if(pow(2, r) > n)
+        cout << "k: ";
+        cin >> k;
+    }while(n < 0 && k < 0);
+    
+    int i =0;
+    do{
+        res = res * (n - i);
+        i++;
+    }while(i < k);
+    
+    for(int i = 1; i <= k; i++)
     {
-        if(r < min)
+        fact = fact * i;
+    }
+    
+    cout <<"res: " <<  res/fact;
+}
+
+
+void Task3()
+{
+    int count = 0;
+    string str;
+    getline(cin, str);
+    for(int i =0; i < str.length(); i++)
+    {
+        if(str[i] == ' ')
         {
-          r--;
-          min = r;
+            int tmp = i - 1;
+            if(str[tmp] == 'j' || str[tmp] == 'f')
+            {
+                do
+                {
+                    str.erase(tmp, 1);
+                    tmp--;
+                    
+                } while (str[tmp] != ' ');
+                count++;
+            }
         }
-        else if(r == min)
-            min = r;
     }
-    else  if(pow(2, r) < n)
+    
+    if(str[str.length()-1] == 'j' || str[str.length()-1] == 'f')
     {
-        do{
-        r++;
-        min = r;
-        }while(pow(2, r) < n);
-        
+        int tmp = str.length()-1;
+        while(str[tmp] != ' ')
+        {
+            str.erase(tmp, 1);
+            tmp--;
+        }
+        count++;
     }
-    cout << min;
+
+    
+    cout << "New string: " << str << " " << "Amount: " << count;
+    
 }
 
 
 int main()
 {
-    string str, second_word, word, new_str;
-    int count = 0;
-    getline(cin, str);
-    int i = 0;
-      while (str[i] != ' ')
-        i++;
-      i++;
-      while (str[i] != ' ') {
-        second_word += str[i];
-        i++;
-      }
-      int sum = 0;
-    for (int i = 0; i < str.length(); i++) {
-       if ((str[i] != ',') && (str[i] != '.') && (str[i] != ' '))
-       {
-         word += str[i];
-       }
-       else {
-         if (word == second_word)
-           sum++;
-       //  if ((word[0] != 'j') && (word[word.length()-1] != 'f'))
-        //   new_str = new_str + word + str[i];
-         //if ((word[0] == 'j') || (word[word.length() - 1] == 'f'))
-           //count++;
-        // word.clear();
-       }
-       
-     }cout<<new_str;
-     cout << count << endl;
-     cout <<sum <<endl;
+    Task3();
     
+    
+    
+    
+  string str;
+  string word;
+  string newStr;
+  int amountWordsWithJ = 0;
+  int amountWordsWithF = 0;
+  int amountWordsWithB = 0;
+  int amountWordsWithD = 0;
+  getline(cin, str);
+  cout << jExist(str);
+  for (int i = 0; i < str.length(); i++) {
+    if (str[i] != ' ')  {
+      word += str[i];
+    }
+    else {
+      addWordToNewStr1(newStr, word, amountWordsWithB, amountWordsWithD);
+      word = "";
+    }
+    if (i == str.length() - 1) {
+      addWordToNewStr1(newStr, word, amountWordsWithB, amountWordsWithD);
+    }
+  }
+  cout << endl << "Amout words with 'B' = " << amountWordsWithB;
+  cout << endl << "Amout words with 'D' = " << amountWordsWithD;
+  cout << endl << "New STR: " << newStr;
 }
-
-    
-
-
-
