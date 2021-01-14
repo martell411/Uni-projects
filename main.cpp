@@ -1,55 +1,45 @@
 #include <iostream>
 #include <string.h>
+#include <fstream>
 
 using namespace std;
 
+struct Train {
+    string arrival_place;
+    int number;
+    string departure_time;
+};
 
-void minMaxLengthWords(string input, string &minWord, string &maxWord)
-{
-    int si = 0, ei = 0; // змінні початку і кінця слова
-    int min_length = (int)input.length(), min_start_index = 0, max_length = 0, max_start_index = 0;
-  
-    while (ei <= min_length) //
-    {
-        if (ei < min_length && input[ei] != ' ') //рахуємо довжину слова
-            ei++;
-          
-        else
-        {
-            int curr_length = ei - si; //присвоємо довжину слова змінній яка відповідає за довжину в
-          
-            if (curr_length < min_length) //якщо довжина менша за мінімальну
-            {
-                min_length = curr_length; //то переприсвоюємо мінімальну довжину меншою
-                min_start_index = si; //індекс початку мінімального слова
-            }
-              
-            if (curr_length > max_length) //якщо довжина більша за максимальну
-            {
-                max_length = curr_length; //то переприсвоюєємо максимальну довжину більшою
-                max_start_index = si; //індекс початку максимального слова
-            }
-            ei++; // переміщаємо змінну яка шукає слово на наступний символ
-            si = ei; // переприсвоємо змінну яка відповідає за початковий символ слова
-        }
-    }
-      
-    minWord = input.substr(min_start_index, min_length); //вертає ту частину стрічки межі якої
-    maxWord = input.substr(max_start_index, max_length); //вказані в параметрах
-}
 
 
 int main()
 {
-    string str, minWord, maxWord, temp;
-    cout << "Enter string:";
-    getline(cin, str);
-    minMaxLengthWords(str, minWord, maxWord);
+    Train *trains = new Train[5];
+    ifstream read_file("/Users/marta/Documents/Module3/module3.txt");
+
+    if (!read_file)
+    {
+      cout << "error";
+      return 1;
+    }
+     
+    if(read_file.is_open())
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            read_file >> trains[i].arrival_place >> trains[i].number >> trains[i].departure_time;
+        }
+    }
+    
+    for (int i = 0; i < 5; i++)
+    {
+        cout << "arrival place:" << trains[i].arrival_place;
+        cout << "number:" << trains[i].number;
+        cout << "departure time" << trains[i].departure_time;
+    }
     
     
-      
-    cout << "Minimum length word: "
-        << minWord << endl
-        << "Maximum length word: "
-        << maxWord << endl;
+    delete[] trains;
+    
+    read_file.close();
 }
