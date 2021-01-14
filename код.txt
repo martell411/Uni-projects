@@ -1,0 +1,68 @@
+#include <fstream>
+#include <iostream>
+using namespace std;
+
+void mtrxget(int **&x, int &n)
+{
+	ifstream in("input.txt");
+
+	if (in.is_open())
+	{
+
+		int count = 0;
+		int temp;
+
+		while (!in.eof())
+		{
+			in >> temp;
+			count++;
+		}
+
+
+		in.seekg(0, ios::beg);
+		in.clear();
+
+		int count_space = 0;
+		char symbol;
+		while (!in.eof())
+		{
+			in.get(symbol);
+			if (symbol == ' ') count_space++;
+			if (symbol == '\n') break;
+		}
+		in.seekg(0, ios::beg);
+		in.clear();
+
+
+		n = count / (count_space + 1);
+		x = new int* [n];
+		for (int i = 0; i < n; i++) x[i] = new int[n];
+
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < n; j++)
+				in >> x[i][j];
+		in.close();
+	}
+	else
+	{
+		cout << "Error";
+	}
+}
+
+int main()
+{
+	int** matrix;
+	int size;
+	mtrxget(matrix, size);
+
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+			cout << matrix[i][j] << "\t";
+		cout << "\n";
+	}
+
+
+	for (int i = 0; i < size; i++) delete[] matrix[i];
+	delete[] matrix;
+}
