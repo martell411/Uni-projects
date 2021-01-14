@@ -1,43 +1,70 @@
 #include <iostream>
-#include <string.h>
+#include <ctime>
+#include <cmath>
+#include <cstdlib>
 
 using namespace std;
 
-string StringWithOneSpace(string s)
+void Task1()
 {
-  for (int i = 0; i < s.length(); i++)
-    if (s[i] == ' ' && s[i + 1] == ' ')
-    {
-      s.erase(i, 1);
-      i = (i - 1);
-    }
-  if (s[0] == ' ')
-      s.erase(0, 1);
-      
-  return s;
-}
-string FindThreeWords(string s)
-{
-  int i = 0;
-  string singleWord = "";
-  for (int k = 0; k < 3; k++)
-  {
+    int m, k= 0, max = 0;
     do
     {
-      singleWord += s[i];
-      i++;
-    } while (s[i] != ' ');
-    i += 1;
-  }
+        cout << "m: ";
+        cin >> m;
+    } while(m <= 1);
+     
     
-  return singleWord;
+    do
+    {
+        if (k > max)
+        {
+            max = k;
+            k++;
+        }
+        if(k < max || k == max) {
+               k++;
+           }
+    }while(pow(4, k) < m);
+    cout << max;
 }
+
+void Task3()
+{
+    int count = 0;
+    string str;
+    getline(cin, str);
+    
+    if(str[0] == 'b' || str[0] == 'd')
+    {
+        int tmp = 0;
+        while(str[tmp] != ' ')
+        {
+           str.erase(0, 1);
+           tmp++;
+        }
+        count++;
+    }
+    for(int i = 0; i < str.length(); i++)
+    {
+        if (str[i] == ' ')
+        {
+           if(str[i + 1] == 'b' || str[i + 1] == 'd')
+           {
+               str.erase(i + 1, 1);
+               count++;
+           }
+        }
+    }
+    
+    cout <<"New string: " << str << " " << "Amount: " << count;
+}
+
+
 
 int main()
 {
-  string str;
-  cout << "Enter string: ";
-  getline(cin, str);
-  string three = FindThreeWords(StringWithOneSpace(str));
-  cout << three.length();
+    Task1();
+    Task3();
+    
 }
